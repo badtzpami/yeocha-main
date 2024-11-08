@@ -1,0 +1,119 @@
+Supplier:
+Add Item
+Item Table
+
+
+Admin:
+Add to cart
+
+////////////////////////////////////////////////////
+Add Order:
+Per Shop
+
+Supplier:
+Accept Orders - Packing (can cancel orders - Cancelled)
+Click On the Way - On the Way
+
+At the tea shop - Arrived
+Message - scan the qr code
+
+Admin:
+Accept by QR Code - Delivered
+
+Notification
+
+
+
+
+search/ctrl + shift + f - $servername
+$servername = "localhost:4306";
+paalis ng :4306 sa lahat ng editor or files
+
+
+
+next is:
+create this code from the category table into users table but use user_id, store only
+
+from:
+
+CREATE TABLE `category` (
+  `ca_id` int(222) NOT NULL AUTO_INCREMENT,
+  `category_name` varchar(222) NOT NULL,
+  `date_created_at` datetime NOT NULL,
+  `date_updated_at` datetime NOT NULL,
+  PRIMARY KEY (`ca_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+to this: 
+
+CREATE TABLE `users` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(225) NOT NULL,
+  `firstname` varchar(225) NOT NULL,
+  `lastname` varchar(225) NOT NULL,
+  `email` varchar(225) NOT NULL,
+  `phone` varchar(225) NOT NULL,
+  `address` varchar(225) NOT NULL,
+  `age` varchar(225) NOT NULL,
+  `birthday` date NOT NULL,
+  `start_date` date NOT NULL,
+  `password` varchar(225) NOT NULL,
+  `role` varchar(225) NOT NULL COMMENT 'Admin, Cashier, Employee, Supplier',
+  `about` varchar(225) NOT NULL,
+  `image` varchar(225) NOT NULL,
+  `signature` varchar(225) NOT NULL,
+  `session_attempt` int(11) NOT NULL,
+  `code` varchar(225) NOT NULL,
+  `time` varchar(225) NOT NULL,
+  `status` varchar(225) NOT NULL,
+  `date_created_at` datetime NOT NULL,
+  `date_updated_at` datetime NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+
+intead that the category is the header then the product is the list below:
+the users 'shop' name is in the header then the supplier_material is the list below.
+
+
+
+here is the product:
+CREATE TABLE `product` (
+  `pr_id` int(222) NOT NULL AUTO_INCREMENT,
+  `ca_id` int(11) NOT NULL,
+  `product_name` varchar(222) NOT NULL,
+  `category` varchar(222) NOT NULL,
+  `material_cost` decimal(10,2) DEFAULT NULL,
+  `selling_price` decimal(10,2) DEFAULT NULL,
+  `image` varchar(222) NOT NULL,
+  `date_created_at` datetime NOT NULL,
+  `date_updated_at` datetime NOT NULL,
+  PRIMARY KEY (`pr_id`),
+  FOREIGN KEY (`ca_id`) REFERENCES `category`(`ca_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+
+here is the material:
+CREATE TABLE `supplier_material` (
+  `sm_id` int(222) NOT NULL AUTO_INCREMENT,
+  `material_name` varchar(222) NOT NULL,
+  `type` varchar(222) NOT NULL,
+  `stock` int(222) NOT NULL,
+  `enter_stock` int(222) NOT NULL,
+  `selling_price` decimal(10,2) DEFAULT NULL,
+  `unit` varchar(222) NOT NULL,
+  `remarks` varchar(222) NOT NULL,
+  `comment` varchar(222) NOT NULL,
+  `image` varchar(222) NOT NULL,
+  `user_id` int(222) NOT NULL,
+  `date_created_at` datetime NOT NULL,
+  `date_updated_at` datetime NOT NULL,
+  PRIMARY KEY (`sm_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
+
+
+no list inside the supplier_material list
+
+
