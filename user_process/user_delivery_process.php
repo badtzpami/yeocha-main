@@ -244,18 +244,14 @@ if (isset($_POST['valid_cart'])) {
     // Initialize response
     $response = [];
 
-    $product_names = $_POST['product_name']; // Get the array of product names
-    $enter_stocks = $_POST['enter_stock']; // Get the array of enter stocks
-    $selling_prices = $_POST['selling_price']; // Get the array of selling prices
-    $total_amounts = $_POST['total_amount']; // Get the array of total amounts
-    $stores = $_POST['store']; // Get the array of stores
+    // Get POST data
+    $product_names = $_POST['product_name']; // Array of product names
+    $enter_stocks = $_POST['enter_stock']; // Array of stocks
+    $selling_prices = $_POST['selling_price']; // Array of selling prices
+    $total_amounts = $_POST['total_amount']; // Array of total amounts
+    $stores = $_POST['store']; // Array of stores
 
-    // $currentYear = date("Y");
-    // $randomLetter = chr(rand(65, 90));
-    // $randomNumber = rand(100, 999);
-    // $combinedVariable = $currentYear . $randomLetter . $randomNumber;
-
-    // Initialize an array to hold the total stock for each store
+    // Initialize an array to hold total stock per store
     $store_stock_totals = [];
 
     // Sum up the enter stock for each store
@@ -263,7 +259,6 @@ if (isset($_POST['valid_cart'])) {
         $store = $stores[$i];
         $enter_stock = $conn->real_escape_string($enter_stocks[$i]);
 
-        // Add the enter stock value to the corresponding store's total
         if (!isset($store_stock_totals[$store])) {
             $store_stock_totals[$store] = 0;
         }
@@ -278,88 +273,93 @@ if (isset($_POST['valid_cart'])) {
         $total_amount = $conn->real_escape_string($total_amounts[$i]);
         $store = $conn->real_escape_string($stores[$i]);
 
-        // Get the total enter stock for the store
+        // Get total enter stock for the store
         $total_enter_stock = $store_stock_totals[$store];
 
-        // Fetch the product record from the supplier_material table
-        $sql_product = "SELECT * FROM `supplier_material` WHERE `material_name` = '" . $product_name . "' ";
-        $res_product = mysqli_query($conn, $sql_product);
-        $product = mysqli_fetch_array($res_product);
+        // Query product record
+        $sql_product = "SELECT * FROM `supplier_material` WHERE `material_name` = ?";
+        $stmt = $conn->prepare($sql_product);
+        $stmt->bind_param('s', $product_name);
+        $stmt->execute();
+        $res_product = $stmt->get_result();
+        $product = $res_product->fetch_array(MYSQLI_ASSOC);
 
         if ($product) {
-            // Get the stock for each material for this product
-            $sql_mat = "SELECT * FROM supplier_material WHERE sm_id = " . $product['sm_id'] . " ORDER BY sm_id DESC";
-            $res_mat = mysqli_query($conn, $sql_mat);
+            // Query for material details
+            $sql_mat = "SELECT * FROM `supplier_material` WHERE `sm_id` = ? ORDER BY `sm_id` DESC";
+            $stmt_mat = $conn->prepare($sql_mat);
+            $stmt_mat->bind_param('i', $product['sm_id']);
+            $stmt_mat->execute();
+            $res_mat = $stmt_mat->get_result();
 
-            // Initialize an array to hold new stock values for materials
+            // Initialize an array for material new stock values
             $material_new_stocks = [];
 
-            // Fetch material records and calculate new stock
-            while ($mat = mysqli_fetch_array($res_mat)) {
-                // Calculate new stock for each material using the total enter_stock for the store
+            // Calculate new stock for each material
+            while ($mat = $res_mat->fetch_array(MYSQLI_ASSOC)) {
                 $new_stock = $mat['stock'] - $total_enter_stock;
-                $material_new_stocks[$mat['sm_id']] = $new_stock; // Store the new stock value
+                $material_new_stocks[$mat['sm_id']] = $new_stock;
             }
 
-            // Check if any new stock value is zero or negative
+            // Check if any stock is zero or negative
             $any_zero_or_negative = false;
             foreach ($material_new_stocks as $sm_id => $new_stock) {
                 if ($new_stock < 0) {
                     $any_zero_or_negative = true;
-                    break; // Exit the loop if we find any zero or negative value
+                    break;
                 }
             }
 
+            // Current date
             date_default_timezone_set('Asia/Manila');
             $date_created_at = date("Y-m-d H:i:s");
 
-            // Example validation: Check if required fields are empty
+            // Validate fields
             if ($any_zero_or_negative) {
                 $response['success'] = "400";
                 $response['title'] = 'Unavailable to add product!';
-                $response['message'] = "Stock is insufficient for product: " . '<strong>' . $product_name . '</strong>. You may decrease your order.';
+                $response['message'] = "Stock is insufficient for product: <strong>" . $product_name . "</strong>. You may decrease your order.";
             } else if (empty($product_name) || empty($enter_stock)) {
                 $response['success'] = "400";
                 $response['title'] = 'Please try again!';
-                $response['message'] = "Fields are Required for #: " . '<strong>' . $product_names . '</strong>';
+                $response['message'] = "Fields are required for: <strong>" . $product_name . "</strong>";
             } else {
+                // Query cart
+                $sql_cart = "SELECT * FROM `cart` WHERE `sm_id` = ?";
+                $stmt_cart = $conn->prepare($sql_cart);
+                $stmt_cart->bind_param('i', $product['sm_id']);
+                $stmt_cart->execute();
+                $res_cart = $stmt_cart->get_result();
+                $cart = $res_cart->fetch_array(MYSQLI_ASSOC);
 
-
-                // Fetch the product record from the supplier_material table
-                $sql_cart = "SELECT * FROM `cart` WHERE `sm_id` = '" . $product['sm_id'] . "' ";
-                $res_cart = mysqli_query($conn, $sql_cart);
-                $cart = mysqli_fetch_array($res_cart);
-
-                if (isset($product['sm_id'])) {
-                    // Insert the record into the database
-                    $query_update_sale = "UPDATE `cart`
-                    SET `sell_price` = '$selling_price',
-                    `quantity` = '" . $cart['quantity'] + $stock . "',
-                    `total` = $total_amount,
-                    `user_id` = ' " . $product["user_id"] . " ',
-                    `date_created_at` = '$date_created_at'
-                    WHERE `sm_id` = '" . $product['sm_id'] . "'
-                    ";
+                // Check if product exists in cart
+                if ($cart) {
+                    // Update cart with new quantity and total
+                    $new_quantity = $cart['quantity'] + $stock;
+                    $query_update_sale = "UPDATE `cart` SET `sell_price` = ?, `quantity` = ?, `total` = ?, `user_id` = ?, `date_created_at` = ? WHERE `sm_id` = ?";
+                    $stmt_sale = $conn->prepare($query_update_sale);
+                    $stmt_sale->bind_param('diissi', $selling_price, $new_quantity, $total_amount, $product["user_id"], $date_created_at, $product['sm_id']);
+                    $stmt_sale->execute();
                 } else {
-                    // Insert the record into the database
-                    $query_update_sale = "INSERT INTO cart (sm_id, sell_price, quantity, total, `user_id`, date_created_at) 
-                    VALUES ('" . $product['sm_id'] . "', '$selling_price', '$stock', '$total_amount', ' " . $product["user_id"] . " ','$date_created_at')";
+                    // Insert into cart
+                    $query_insert_sale = "INSERT INTO `cart` (sm_id, sell_price, quantity, total, user_id, date_created_at) VALUES (?, ?, ?, ?, ?, ?)";
+                    $stmt_sale = $conn->prepare($query_insert_sale);
+                    $stmt_sale->bind_param('diissi', $product['sm_id'], $selling_price, $stock, $total_amount, $product["user_id"], $date_created_at);
+                    $stmt_sale->execute();
                 }
 
-                $query_run_sale = mysqli_query($conn, $query_update_sale);
-
-                if ($query_run_sale) {
+                if ($stmt_sale) {
                     $response['success'] = "100";
                     $response['title'] = 'Product added successfully!';
                     $response['message'] = "You can now check the sale table.";
                 } else {
                     $response['success'] = "500";
-                    $response['title'] = 'SOMETHING WENT WRONG!';
+                    $response['title'] = 'Something went wrong!';
                     $response['message'] = "Error inserting records.";
                 }
             }
         } else {
-            // Handle case where product is not found
+            // Product not found
             $response['success'] = "404";
             $response['title'] = 'Product Not Found';
             $response['message'] = "The product could not be found in the database.";
@@ -369,3 +369,9 @@ if (isset($_POST['valid_cart'])) {
     // Ensure the response is always a valid JSON
     echo json_encode($response);
 }
+
+
+
+?>
+
+

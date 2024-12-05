@@ -14,7 +14,7 @@ $valid_user = "SELECT * FROM `users` WHERE `user_id` = '" . $sessionId . "' && `
 $check_user = mysqli_query($conn, $valid_user);
 
 if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
-    header("Location: ../user_signin/signin.php");
+    header("Location: ../index.php");
     session_destroy();
 } else
     $user = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM `users` WHERE `user_id` = $sessionId"));
@@ -309,12 +309,6 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         /* Darker red on hover */
     }
 
-    body {
-        margin: 0;
-        /* Reset default margin */
-        padding: 0;
-        /* Reset default padding */
-    }
 
     .button-container {
         display: flex;
@@ -432,6 +426,198 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         border: 2px solid #007bff;
         box-shadow: 0 4px 20px rgba(0, 123, 255, 0.5);
     }
+
+
+
+
+    /* Select All Checkbox Section */
+    .select_all2,
+    .all_added_price {
+        display: flex;
+        align-items: top;
+        font-size: 16px;
+        margin: 10px 30px;
+    }
+
+    .select_all2 input[type="checkbox"] {
+        margin: 10px;
+        width: 20px;
+        display: flex;
+        align-items: top;
+        height: 20px;
+        /* Spacing between checkbox and label */
+        cursor: pointer;
+        /* Change cursor to pointer on hover */
+    }
+
+    .select_two {
+        display: flex;
+        margin-top: 30px;
+        align-items: center;
+    }
+
+    /* Price Section */
+    .all_added_price p {
+        font-size: 18px;
+        font-weight: 600;
+        color: #444;
+        display: flex;
+        align-items: center;
+    }
+
+    .all_added_price input[type="text"] {
+        margin-left: 10px;
+        padding: 5px 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+        width: 120px;
+        text-align: right;
+    }
+
+    /* Delete All Button */
+    .delete_all a.link_delete {
+        display: inline-block;
+        width: 100px;
+        padding: 12px 20px;
+        margin: 0 25px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #e74c3c;
+        /* Red background */
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    a.link_delete {
+        display: inline-block;
+        width: 100px !important;
+        height: 50px !important;
+        padding: 12px 20px !important;
+        margin: 0 25px;
+        font-size: 18px !important;
+        color: #fff !important;
+        background-color: #e74c3c !important;
+        /* Red background */
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    a.newlink_delete {
+        display: inline-block;
+        width: 100px !important;
+        height: 50px !important;
+        padding: 12px 20px !important;
+        margin: 0 25px;
+        font-size: 14px !important;
+        color: #fff !important;
+        background-color: #e74c3c !important;
+        /* Red background */
+        text-decoration: none;
+        border-radius: 5px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .delete_all a.link_delete:hover {
+        background-color: #c0392b;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+        /* Lift effect on hover */
+    }
+
+    .delete_all a.link_delete:active {
+        background-color: #d94a39;
+        /* Darker red when clicked */
+        transform: translateY(2px);
+        /* Pressed effect */
+    }
+
+    /* Reset Button */
+    .reset-button button {
+        padding: 10px 30px;
+        font-size: 16px;
+        color: #fff;
+        background-color: #3498db;
+        /* Blue background */
+        border: none;
+        border-radius: 5px;
+        width: 200px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .reset-button button:hover {
+        background-color: #2980b9;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+        /* Lift effect on hover */
+    }
+
+    .reset-button button:active {
+        background-color: #1f6f98;
+        transform: translateY(2px);
+        /* Pressed effect */
+    }
+
+    /* Submit Button */
+    .physical_inventory_button {
+        padding: 12px 40px;
+        font-size: 18px;
+        color: #fff;
+        background-color: #2ecc71;
+        /* Green background */
+        border: none;
+        border-radius: 5px;
+        width: 200px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .physical_inventory_button:hover {
+        background-color: #27ae60;
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
+        /* Lift effect on hover */
+    }
+
+    .physical_inventory_button:active {
+        background-color: #1e854c;
+        transform: translateY(2px);
+        /* Pressed effect */
+    }
+
+    /* Responsive Styling */
+    @media (max-width: 768px) {
+
+        .select_all2,
+        .all_added_price p,
+        .delete_all,
+        .reset-button,
+        .physical_inventory_button {
+            width: 100%;
+            /* Make buttons and inputs full width on smaller screens */
+        }
+
+        .all_added_price input[type="text"] {
+            width: auto;
+            /* Adjust input field width */
+        }
+
+        .delete_all a.link_delete,
+        .reset-button button,
+        .physical_inventory_button {
+            margin-bottom: 10px;
+            /* Add spacing between buttons */
+        }
+    }
 </style>
 <?php include "../include/user_top.php"; ?>
 
@@ -487,7 +673,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
             <div class="d-flex">
 
-                <a href="../admin/user_order.php">
+                <a href="../admin/user_cart.php">
                     <button type="button" class="btn">
                         <i class="bi bi-refresh btn-icon-prepend"></i>Refresh
                     </button>
@@ -497,9 +683,13 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                     <i class="bi bi-refresh btn-icon-prepend"></i>All Item
                 </button>
 
-                <button type="button" class="btn print" onclick="printUserTable()">
+                <button type="button" class="btn print">
                     <i class="mdi mdi-print btn-icon-prepend"></i>Print
                 </button>
+
+                <!-- <button type="button" class="btn print" onclick="printUserTable()">
+                    <i class="mdi mdi-print btn-icon-prepend"></i>Print
+                </button> -->
 
                 <!-- Hidden iframe that loads user_print.php -->
                 <!-- <iframe id="userPrintIframe" src="../getdata/product_data_query.php" style="display:none;"></iframe> -->
@@ -518,27 +708,15 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         <div class="row">
             <col-lg-12>
 
-                <form id="updateInventoryRawProduct" method="post" onsubmit="handleFormSubmit(event)">
 
-                    <div class="card stretch-card" id="allPhysicalInventoryRawContent">
-                        <div class="card-body">
+                <div class="card stretch-card" id="allPhysicalInventoryRawContent" >
+                    <div class="card-body">
 
-                            <?php include_once '../user_data/view_cart.php'; ?>
+                        <?php include_once '../user_data/view_cart.php'; ?>
 
-
-                        </div>
-
-                        <div class="button-container">
-                            <div class="reset-button">
-                                <button id="reset-button-inventory">Unselect All</button>
-                            </div>
-                            <button type="submit" id="save-btn" class="physical_inventory_button">
-                                Submit
-                            </button>
-                        </div>
                     </div>
-                </form>
 
+                </div>
 
             </col-lg-12>
         </div>
@@ -551,7 +729,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         <div class="row">
             <col-lg-12>
 
-                <div class="card stretch-card" id="addPhysicalInventoryContent" style="display: none;">
+                <div class="card stretch-card" id="addPhysicalInventoryContent" style="height:auto; display: none;">
                     <div class="card-body">
 
                         <div class="table-responsive">
@@ -580,6 +758,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
                                 </table>
                                 <div class="button-container">
+
                                     <div class="reset-button">
                                         <button id="reset-button">Reset Selection</button>
                                     </div>
@@ -609,7 +788,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
 
 
-                <div class="card stretch-card" id="selectPhysicalInventoryContent" style="display: none;">
+                <div class="card stretch-card" id="selectPhysicalInventoryContent" style="height:auto; display: none;">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center m-5">
                             <div class="category-buttons">
@@ -618,13 +797,14 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
 
                                 <?php
-                                $supplier_list_query = "SELECT * FROM `users` WHERE `role` = 'Supplier' ORDER BY `user_id` DESC";
+                                $supplier_list_query = "SELECT * FROM `users` WHERE store != '' AND `role` = 'Supplier' ORDER BY `user_id` DESC";
                                 $supplier_list_result = mysqli_query($conn, $supplier_list_query);
 
                                 if (mysqli_num_rows($supplier_list_result) > 0) {
                                     while ($supplier = mysqli_fetch_array($supplier_list_result)) { ?>
                                         <button class="btn btn-sm btn-info category-filter" data-category="<?= str_replace(' ', '', strtolower($supplier['store'])) ?>"><?= ucfirst($supplier['store']) ?></button>
                                 <?php }
+                                } else {
                                 } ?>
                             </div>
                             <div class="search-box">
@@ -635,56 +815,70 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
                             <div class="row-materials">
                                 <div class="material-cards">
-
                                     <?php
-                                    $first_material_list_query = "SELECT sm.sm_id, sm.material_name, sm.type, sm.stock,  sm.enter_stock, sm.selling_price,  sm.unit, sm.image, us.user_id, us.store FROM `supplier_material` sm LEFT JOIN `users` us  ON sm.user_id = us.user_id WHERE us.store != '' ORDER BY us.user_id DESC LIMIT 1 ";
+                                    $first_material_list_query = "SELECT sm.sm_id, sm.material_name, sm.type, sm.stock, sm.enter_stock, sm.selling_price, sm.unit, sm.image, us.user_id, us.store 
+                              FROM `supplier_material` sm 
+                              LEFT JOIN `users` us ON sm.user_id = us.user_id 
+                              WHERE us.store != '' 
+                              ORDER BY us.user_id DESC LIMIT 1";
+
                                     $first_material_list_result = mysqli_query($conn, $first_material_list_query);
                                     $first_material = mysqli_fetch_array($first_material_list_result);
 
-
+                                    // Check if $first_material is valid
+                                    if (is_array($first_material) && !empty($first_material)) {
                                     ?>
-
-
-
-                                    <div class="card-row card-items <?= str_replace(' ', '', strtolower($first_material['store'])) ?>" data-name="<?php echo $first_material['material_name']; ?>" data-selling-price="<?php echo $first_material['selling_price']; ?>" data-store="<?php echo $first_material['store']; ?>">
-                                        <?php if (is_array($first_material)) { ?>
+                                        <div class="card-row card-items <?= str_replace(' ', '', strtolower($first_material['store'])) ?>" data-name="<?php echo htmlspecialchars($first_material['material_name']); ?>" data-selling-price="<?php echo htmlspecialchars($first_material['selling_price']); ?>" data-store="<?php echo htmlspecialchars($first_material['store']); ?>">
                                             <?php if (empty($first_material['image'])) { ?>
-                                                <img src="../assets/images/default_images/tea_house.jpeg" alt="<?php echo $first_material['material_name']; ?>" id="Material<?php echo $first_material['sm_id']; ?>">
+                                                <img src="../assets/images/default_images/tea_house.jpeg" alt="<?php echo htmlspecialchars($first_material['material_name']); ?>" id="Material<?php echo $first_material['sm_id']; ?>">
                                             <?php } else { ?>
-                                                <img src="../assets/images/material_images/<?php echo $first_material['image']; ?>" alt="Material<?php echo $first_material['sm_id']; ?>" id="Material<?php echo $first_material['sm_id']; ?>">
-                                        <?php }
-                                        } else {
-                                        } ?>
-                                        <div class="material-name"><?php echo $first_material['material_name']; ?></div>
-                                        <input type="text" readonly id="selling-price" class="form-control" value="<?php echo $first_material['selling_price']; ?>" style="text-align: center;">
-                                        <input type="hidden" readonly id="store" class="form-control" value="<?php echo $first_material['store']; ?>" style="text-align: center;">
-                                        <div class="material-name"><?php echo $first_material['store'] ? $first_material['store'] : '0'; ?></div>
-                                    </div>
+                                                <img src="../assets/images/material_images/<?php echo htmlspecialchars($first_material['image']); ?>" alt="Material<?php echo $first_material['sm_id']; ?>" id="Material<?php echo $first_material['sm_id']; ?>">
+                                            <?php } ?>
+                                            <div class="material-name"><?php echo htmlspecialchars($first_material['material_name']); ?></div>
+                                            <input type="text" readonly id="selling-price" class="form-control" value="<?php echo htmlspecialchars($first_material['selling_price']); ?>" style="text-align: center;">
+                                            <input type="hidden" readonly id="store" class="form-control" value="<?php echo htmlspecialchars($first_material['store']); ?>" style="text-align: center;">
+                                            <div class="material-name"><?php echo $first_material['store'] ? htmlspecialchars($first_material['store']) : '0'; ?></div>
+                                        </div>
                                     <?php
-                                    $material_list_query = "SELECT sm.sm_id, sm.material_name, sm.type, sm.stock,  sm.enter_stock,  sm.selling_price,  sm.unit, sm.image, us.user_id, us.store FROM `supplier_material` sm LEFT JOIN `users` us  ON sm.user_id = us.user_id WHERE  sm.sm_id != ' " . $first_material['sm_id'] . " ' AND us.store != ''  ORDER BY us.user_id DESC";
-                                    $material_list_result = mysqli_query($conn, $material_list_query);
-
-                                    if (mysqli_num_rows($material_list_result) > 0) {
-                                        while ($material = mysqli_fetch_array($material_list_result)) {  ?>
-
-                                            <div class="card-row card-items <?= str_replace(' ', '', strtolower($material['store'])) ?>" data-name="<?php echo $material['material_name']; ?>" data-selling-price="<?php echo $material['selling_price']; ?>" data-store="<?php echo $material['store']; ?>">
-                                                <?php if (is_array($material)) { ?>
-                                                    <?php if (empty($material['image'])) { ?>
-                                                        <img src="../assets/images/default_images/tea_house.jpeg" alt="<?php echo $first_material['material_name']; ?>" id="Material<?php echo $first_material['sm_id']; ?>">
-                                                    <?php } else { ?>
-                                                        <img src="../assets/images/material_images/<?php echo $material['image']; ?>" alt="Material<?php echo $first_material['sm_id']; ?>" id="Material<?php echo $first_material['sm_id']; ?>">
-                                                <?php }
-                                                } ?>
-                                                <div class="material-name"><?php echo $material['material_name']; ?></div>
-                                                <input type="text" readonly id="selling-price" class="form-control" value="<?php echo $material['selling_price']; ?>" style="text-align: center;">
-                                                <input type="hidden" readonly id="store" class="form-control" value="<?php echo $material['store']; ?>" style="text-align: center;">
-                                                <div class="material-name"><?php echo $material['store'] ? $material['store'] : '0'; ?></div>
-                                            </div>
-                                    <?php
-                                        }
                                     } else {
+                                        // Handle the case when no data is found
+                                        echo "<p>No material found</p>";
                                     }
                                     ?>
+
+                                    <?php
+                                    // Ensure that $first_material is not null or empty before using it in the query.
+                                    if (isset($first_material['sm_id']) && !empty($first_material['sm_id'])) {
+                                        $material_list_query = "SELECT sm.sm_id, sm.material_name, sm.type, sm.stock, sm.enter_stock, sm.selling_price, sm.unit, sm.image, us.user_id, us.store 
+                            FROM `supplier_material` sm 
+                            LEFT JOIN `users` us ON sm.user_id = us.user_id 
+                            WHERE sm.sm_id != '" . mysqli_real_escape_string($conn, $first_material['sm_id']) . "' 
+                            AND us.store != '' 
+                            ORDER BY us.user_id DESC";
+                                        $material_list_result = mysqli_query($conn, $material_list_query);
+
+                                        if (mysqli_num_rows($material_list_result) > 0) {
+                                            while ($material = mysqli_fetch_array($material_list_result)) { ?>
+                                                <div class="card-row card-items <?= str_replace(' ', '', strtolower($material['store'])) ?>" data-name="<?php echo $material['material_name']; ?>" data-selling-price="<?php echo $material['selling_price']; ?>" data-store="<?php echo $material['store']; ?>">
+                                                    <?php if (empty($material['image'])) { ?>
+                                                        <img src="../assets/images/default_images/tea_house.jpeg" alt="<?php echo htmlspecialchars($material['material_name']); ?>" id="Material<?php echo $material['sm_id']; ?>">
+                                                    <?php } else { ?>
+                                                        <img src="../assets/images/material_images/<?php echo htmlspecialchars($material['image']); ?>" alt="Material<?php echo $material['sm_id']; ?>" id="Material<?php echo $material['sm_id']; ?>">
+                                                    <?php } ?>
+                                                    <div class="material-name"><?php echo htmlspecialchars($material['material_name']); ?></div>
+                                                    <input type="text" readonly id="selling-price" class="form-control" value="<?php echo htmlspecialchars($material['selling_price']); ?>" style="text-align: center;">
+                                                    <input type="hidden" readonly id="store" class="form-control" value="<?php echo htmlspecialchars($material['store']); ?>" style="text-align: center;">
+                                                    <div class="material-name"><?php echo $material['store'] ? htmlspecialchars($material['store']) : '0'; ?></div>
+                                                </div>
+                                    <?php }
+                                        } else {
+                                            echo "<p>No material found</p>";
+                                        }
+                                    } else {
+                                        echo "<p style='text-align: center;'>First material data is missing</p>";
+                                    }
+                                    ?>
+
                                 </div>
                             </div>
 
@@ -962,8 +1156,8 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                     if (res.success == 100) {
                         showMessageBox(res.title, res.message, 'success');
                         setTimeout(function() {
-                            location.href = '/yeocha_main/admin/user_cart.php';
-                        }, 6000);
+                            location.href = '/admin/user_cart.php';
+                        }, 3000);
                     } else {
                         showMessageBox(res.title, res.message, 'warning');
                     }

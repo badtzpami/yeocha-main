@@ -6,25 +6,11 @@
         <li class="nav-item">
             <a class="nav-link  " href="../cashier/user_sale.php">
                 <i class="bi bi-shop"></i>
-                <span>Sale</span>
+                <span>Transaction</span>
             </a>
         </li>
 
-        <li class="nav-item">
-            <a class="nav-link  " href="../cashier/user_pos.php">
-                <i class="bi bi-laptop"></i>
-                <span>POS</span>
-            </a>
-        </li>
-
-
-
-        <li class="nav-item">
-            <a class="nav-link collapsed " href="../cashier/user_sales_report.php">
-                <i class="bi bi-pie-chart"></i>
-                <span>Reports</span>
-            </a>
-        </li><!-- End Product Nav -->
+      
 
 
 

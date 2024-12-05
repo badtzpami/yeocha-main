@@ -16,7 +16,7 @@
     <tbody id="input-container-archive">
 
         <?php
-        $material_list_query = "SELECT ma.ma_id, ma.type, ma.stock, ma.unit, me.pr_id, me.me_id, me.date_created_at, me.date_updated_at  FROM `material` ma LEFT JOIN `menu` me ON ma.ma_id = me.ma_id WHERE pr_id IS NOT NULL ORDER BY `ma_id` DESC";
+        $material_list_query = "SELECT ma.ma_id, ma.type, ma.unit, me.pr_id, me.me_id, me.stock, me.date_created_at, me.date_updated_at  FROM `material` ma LEFT JOIN `menu` me ON ma.ma_id = me.ma_id WHERE pr_id IS NOT NULL ORDER BY `ma_id` DESC";
         $material_list_result = mysqli_query($conn, $material_list_query);
         $counter = 1; // Initialize counter 
 

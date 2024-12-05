@@ -1,3 +1,8 @@
+<style>
+    .bg-custom-secondary {
+        background-color: #535e70;
+    }
+</style>
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
@@ -9,9 +14,6 @@
                 <span>Dashboard</span>
             </a>
         </li><!-- End Dashboard Nav -->
-
-
-
 
         <!-- <li class="nav-item">
             <a class="nav-link collapsed " href="../admin/user_product.php">
@@ -36,16 +38,18 @@
                     </a>
                 </li>
                 
-                <li>
-                    <a href="../admin/user_product_material.php">
-                        <i class="bi bi-basket"></i><span>Materials</span>
-                    </a>
-                </li>
 
                  
                 <li>
+                    <a href="../admin/user_product_material.php">
+                        <i class="bi bi-book"></i><span>Materials</span>
+                    </a>
+                </li>
+
+                
+                <li>
                     <a href="../admin/user_product_menu.php">
-                        <i class="bi bi-book"></i><span>Menu</span>
+                        <i class="bi bi-basket"></i><span>Menu</span>
                     </a>
                 </li>
             </ul>
@@ -58,17 +62,23 @@
                 <span>Cart</span>
             </a>
         </li><!-- End Product Nav -->
+        <li class="nav-item">
+            <a class="nav-link collapsed " href="../admin/user_orders.php">
+                <i class="bi bi-bag"></i>
+                <span>Orders</span>
+            </a>
+        </li><!-- End Product Nav -->
 
         
         <li class="nav-item">
-            <a class="nav-link collapsed " href="product.html">
+            <a class="nav-link collapsed " href="../admin/user_logistic.php">
                 <i class="bi bi-truck"></i>
                 <span>logistics</span>
             </a>
         </li><!-- End Product Nav -->
 
         <li class="nav-item">
-            <a class="nav-link collapsed " href="product.html">
+            <a class="nav-link collapsed " href="../admin/user_report.php">
                 <i class="bi bi-pie-chart"></i>
                 <span>Reports</span>
             </a>
@@ -108,7 +118,7 @@
 
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="pages-faq.html">
+            <a class="nav-link collapsed" href="../admin/user_message.php">
                 <i class="bi bi-chat-left-text"></i>
                 <span>Messages</span>
             </a>

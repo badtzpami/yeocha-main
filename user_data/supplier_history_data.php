@@ -16,7 +16,7 @@
     <tbody id="input-container-archive">
 
         <?php
-        $material_list_query = "SELECT * FROM `supplier_history` ORDER BY `sh_id` DESC";
+        $material_list_query = "SELECT * FROM `supplier_history` WHERE `user_id` = ".$_SESSION["user_id_supplier"]." ORDER BY `sh_id` DESC";
         $material_list_result = mysqli_query($conn, $material_list_query);
         $counter = 1; // Initialize counter 
 

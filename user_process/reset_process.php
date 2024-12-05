@@ -5,9 +5,9 @@ session_start();
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-require '../user_signin/PHPMailer/Exception.php';
-require '../user_signin/PHPMailer/PHPMailer.php';
-require  '../user_signin/PHPMailer/SMTP.php';
+require '../PHPMailer/Exception.php';
+require '../PHPMailer/PHPMailer.php';
+require  '../PHPMailer/SMTP.php';
 
 $response = array(
     'success' => "500",
@@ -98,7 +98,7 @@ if (isset($_POST['send_email_form'])) {
                     $email_device = $detect_device;
                     $email_username = $username;
 
-                    $email_template = '../user_signin/template_mail/reset_password.html';
+                    $email_template = '../template_mail/reset_password.html';
                     $message = file_get_contents($email_template);
                     $message = str_replace('%email_logo%', $email_logo, $message);
                     $message = str_replace('%email_footer%', $email_footer, $message);
@@ -309,7 +309,7 @@ if (isset($_POST['resend_code_form'])) {
             $email_device = $detect_device;
             $email_username = $username;
 
-            $email_template =  '../user_signin/template_mail/reset_password.html';
+            $email_template =  '../template_mail/reset_password.html';
             $message = file_get_contents($email_template);
             $message = str_replace('%email_logo%', $email_logo, $message);
             $message = str_replace('%email_footer%', $email_footer, $message);
@@ -414,7 +414,7 @@ if (isset($_POST['reset_password_form'])) {
                 $email_username = $username;
                 $email_password = $password;
 
-                $email_template = '../user_signin/template_mail/reset_account.html';
+                $email_template = '../template_mail/reset_account.html';
                 $message = file_get_contents($email_template);
                 $message = str_replace('%email_logo%', $email_logo, $message);
                 $message = str_replace('%email_footer%', $email_footer, $message);

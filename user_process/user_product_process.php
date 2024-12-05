@@ -56,8 +56,8 @@ if (isset($_POST['valid_category'])) {
         } else {
 
             // Insert the record into the database
-            $query = "INSERT INTO `category` (`category_name`,  `date_created_at`) 
-            VALUES ('$category_name',  '$date_created_at')";
+            $query = "INSERT INTO `category` (`category_name`,  `date_created_at`, `date_updated_at`) 
+            VALUES ('$category_name',  '$date_created_at',  '1970-01-01 00:00:01')";
 
             $query_run = mysqli_query($conn, $query);
 
@@ -103,6 +103,9 @@ if (isset($_POST['update_category'])) {
         $ca_id = $conn->real_escape_string($ca_ids[$i]);
         $category_name = $conn->real_escape_string($category_names[$i]);
 
+        date_default_timezone_set('Asia/Manila');
+        $date_updated_at = date("Y-m-d H:i:s");
+
         // Example validation: Check if required fields are empty
         if (empty($category_name)) {
             // Set error response and break out of the loop
@@ -114,7 +117,8 @@ if (isset($_POST['update_category'])) {
 
         // Update the record into the database
         $query_category = "UPDATE `category`
-            SET `category_name` = '$category_name'
+            SET `category_name` = '$category_name',
+            `date_updated_at` = '$date_updated_at'
             WHERE `ca_id` = '$ca_id'";
 
         $query_category_run = mysqli_query($conn, $query_category);
@@ -282,6 +286,20 @@ if (isset($_POST['update_product'])) {
     }
 
     $updateSuccess = true; // Flag for overall success
+    
+    // Check if ca_id is set and not empty
+    if (empty($ca_ids)) {
+        $response2['success'] = "400";
+        $response2['title'] = 'Invalid Input';
+        $response2['message'] = "Category ID is missing.";
+        echo json_encode($response2);
+        exit;
+    }
+
+    // Now you can safely check for duplicates
+    $duplicate_categories = array_filter(array_count_values($ca_ids), function ($count) {
+        return $count > 1;
+    });
 
     // Process each item
     for ($i = 0; $i < count($product_names); $i++) {
@@ -705,6 +723,7 @@ if (isset($_FILES["imagematerial"]["name"])) {
 if (isset($_POST['valid_menu'])) {
     $product_names = $_POST['product_name']; // Get the array of product names
     $material_names = $_POST['material_name']; // Get the array of material names
+    $stocks = $_POST['stock']; // Get the array of material names
 
     // Check for duplicates
     $duplicate_products = array_filter(array_count_values($product_names), function ($count) {
@@ -731,6 +750,7 @@ if (isset($_POST['valid_menu'])) {
     for ($i = 0; $i < count($product_names); $i++) {
         $product_name = $conn->real_escape_string($product_names[$i]);
         $material_name = $conn->real_escape_string($material_names[$i]);
+        $stock = $conn->real_escape_string($stocks[$i]);
 
 
         $sql_menu = "SELECT * FROM `menu` WHERE `pr_id` = '" . $product_name . "' AND `ma_id` = '" . $material_name . "' ";
@@ -742,7 +762,7 @@ if (isset($_POST['valid_menu'])) {
 
 
         // Example validation: Check if required fields are empty
-        if (empty($product_name) || empty($material_name)) {
+        if (empty($product_name) || empty($material_name) || empty($stock)) {
             $response['success'] = "400";
             $response['title'] = 'Please try again!';
             $response['message'] = "Fields are Required.";
@@ -759,11 +779,15 @@ if (isset($_POST['valid_menu'])) {
             $response['success'] = "400";
             $response['title'] = 'Please try again!';
             $response['message'] = "The Row: " . $product_name . " product is already exist.";
+        } else if (!is_numeric($stock)) {
+            $response['success'] = "400";
+            $response['title'] = 'Please try again!';
+            $response['message'] = "Input stock must be a non-decimal numeric value.";
         } else {
 
             // Insert the record into the database
-            $query = "INSERT INTO `menu` (`pr_id`, `ma_id`,  `date_created_at`) 
-            VALUES ('$product_name', '$material_name', '$date_created_at')";
+            $query = "INSERT INTO `menu` (`pr_id`, `ma_id`, `stock`,  `date_created_at`) 
+            VALUES ('$product_name', '$material_name', '$stock', '$date_created_at')";
 
             $query_run = mysqli_query($conn, $query);
 
@@ -789,21 +813,7 @@ if (isset($_POST['update_menu'])) {
     $material_names = $_POST['material_name']; // Get the array of material names
     $stocks = $_POST['stock']; // Get the array of material stocks
 
-    // Check for duplicates
-    $duplicate_products = array_filter(array_count_values($product_names), function ($count) {
-        return $count > 1;
-    });
-    $duplicate_materials = array_filter(array_count_values($material_names), function ($count) {
-        return $count > 1;
-    });
-
-    if (!empty($duplicate_products) && !empty($duplicate_materials)) {
-        $response['success'] = "400";
-        $response['title'] = 'Duplicate Product Found!';
-        $response['message'] = "Duplicate products: " . implode(", ", array_keys($duplicate_products));
-        echo json_encode($response);
-        exit; // Stop further processing
-    }
+   
 
 
 
@@ -831,23 +841,22 @@ if (isset($_POST['update_menu'])) {
             $response['success'] = "400";
             $response['title'] = 'Please try again!';
             $response['message'] = "Choose other Material Option.";
+        } else if (!is_numeric($stock)) {
+            $response['success'] = "400";
+            $response['title'] = 'Please try again!';
+            $response['message'] = "Input stock must be a non-decimal numeric value.";
         } else {
             // Insert the record into the database
             $menu_query = "UPDATE `menu` 
             SET `pr_id` = '$product_name', 
             `ma_id` = '$material_name',
+            `stock` = '$stock',
             `date_updated_at` = '$date_updated_at'
             WHERE `me_id` = '$me_id'";
 
-            $material_query = "UPDATE `material` 
-            SET `stock` = '$stock', 
-            `date_updated_at` = '$date_updated_at'
-            WHERE `ma_id` = '$material_name'";
-
             $menu_query_run = mysqli_query($conn, $menu_query);
-            $material_query_run = mysqli_query($conn, $material_query);
 
-            if ($menu_query_run || $material_query_run) {
+            if ($menu_query_run) {
                 $response['success'] = "100";
                 $response['title'] = 'Menu updated successfully!';
                 $response['message'] = "You can now check the menu table.";
@@ -1095,98 +1104,144 @@ if (isset($_POST['valid_physical_inventory'])) {
     echo json_encode($response);
 }
 
-
-
 if (isset($_POST['valid_sale'])) {
-    $product_names = $_POST['product_name']; // Get the array of product names
-    $enter_stocks = $_POST['enter_stock']; // Get the array of enter stocks
-    $selling_prices = $_POST['selling_price']; // Get the array of enter stocks
-    $total_amounts = $_POST['total_amount']; // Get the array of enter stocks
+    // Retrieve POST data
+    $combinedVariable = $_POST['newcode'];
+    $product_names = $_POST['product_name'];
+    $enter_stocks = $_POST['enter_stock'];
+    $selling_prices = $_POST['selling_price'];
+    $total_amounts = $_POST['total_amount'];
+    $mytotals = $_POST['mytotal'];
+    $mydiscounts = $_POST['mydiscount'];
+    $mytendereds = $_POST['mytendered'];
+    $myoveralls = $_POST['myoverall'];
 
-    $currentYear = date("Y");
-    $randomLetter = chr(rand(65, 90));
-    $randomNumber = rand(100, 999);
-    $combinedVariable = $currentYear . $randomLetter . $randomNumber;
-
-    // Process each item to calculate total enter stock first
-    $total_enter_stock = 0;
-    for ($i = 0; $i < count($product_names); $i++) {
-        $enter_stock = $conn->real_escape_string($enter_stocks[$i]);
-        $total_enter_stock += $enter_stock; // Sum up the enter stock values
+    // Ensure combinedVariable is not an array
+    if (is_array($combinedVariable)) {
+        $combinedVariable = implode(',', $combinedVariable);  // Convert array to comma-separated string
     }
 
-    // Process each item again to update stock
+    // Process each product
     for ($i = 0; $i < count($product_names); $i++) {
         $product_name = $conn->real_escape_string($product_names[$i]);
         $stock = $conn->real_escape_string($enter_stocks[$i]);
         $selling_price = $conn->real_escape_string($selling_prices[$i]);
         $total_amount = $conn->real_escape_string($total_amounts[$i]);
+        $mytotal = $conn->real_escape_string($mytotals[$i]);
+        $mydiscount = $conn->real_escape_string($mydiscounts[$i]);
+        $mytendered = $conn->real_escape_string($mytendereds[$i]);
+        $myoverall = $conn->real_escape_string($myoveralls[$i]);
 
-        $sql_product = "SELECT * FROM product WHERE product_name = '" . $product_name . "' ";
+        // Get product from DB
+        $sql_product = "SELECT * FROM `product` WHERE `product_name` = '$product_name'";
         $res_product = mysqli_query($conn, $sql_product);
         $product = mysqli_fetch_array($res_product);
 
-        $sql_mat = "SELECT ma.ma_id, ma.type, ma.stock, ma.enter_stock, ma.unit, me.pr_id, me.me_id, me.date_created_at, me.date_updated_at  
-                    FROM material ma 
-                    LEFT JOIN menu me ON ma.ma_id = me.ma_id 
-                    WHERE pr_id IS NOT NULL AND pr_id = " . $product['pr_id'] . " AND ma.type = 2 
+        if (!$product) {
+            $response['success'] = "400";
+            $response['title'] = 'Product not found!';
+            $response['message'] = "Product '$product_name' not found.";
+            echo json_encode($response);
+            exit;
+        }
+
+        // Ensure pr_id is not an array
+        $pr_id = $product['pr_id'];
+        if (is_array($pr_id)) {
+            $pr_id = $pr_id[0];  // Take the first element if it's an array (unlikely, but for safety)
+        }
+
+        // Fetch menu and material data
+        $sql_menu = "SELECT * FROM menu WHERE pr_id = $pr_id";
+        $res_menu = mysqli_query($conn, $sql_menu);
+        $menu = mysqli_fetch_array($res_menu);
+
+        // Fetch materials for stock calculation
+        $sql_mat = "SELECT ma.ma_id, ma.type, ma.stock, ma.enter_stock, ma.unit, me.pr_id, me.me_id, me.date_created_at, me.date_updated_at
+                    FROM material ma
+                    LEFT JOIN menu me ON ma.ma_id = me.ma_id
+                    WHERE pr_id IS NOT NULL AND pr_id = $pr_id AND ma.type = 2
                     ORDER BY ma_id DESC";
         $res_mat = mysqli_query($conn, $sql_mat);
 
         // Initialize an array to hold new stock values
         $material_new_stocks = [];
-
-        // Fetch material records and calculate new stock
         while ($mat = mysqli_fetch_array($res_mat)) {
-            // Calculate new stock for each material using the total enter_stock
             $new_stock = $mat['enter_stock'] - $total_enter_stock;
-            $material_new_stocks[$mat['ma_id']] = $new_stock; // Store the new stock value
+            $material_new_stocks[$mat['ma_id']] = $new_stock;
         }
 
-        // Check if any new stock value is zero or negative
+        // Validate if stock is sufficient
         $any_zero_or_negative = false;
         foreach ($material_new_stocks as $ma_id => $new_stock) {
             if ($new_stock < 0) {
                 $any_zero_or_negative = true;
-                break; // Exit the loop if we find any zero or negative value
+                break;
             }
         }
 
         date_default_timezone_set('Asia/Manila');
-        $date_created_at = date("Y-m-d H:i:s");
+        $date_updated_at = date("Y-m-d H:i:s");
 
-        // Example validation: Check if required fields are empty
         if ($any_zero_or_negative) {
             $response['success'] = "400";
-            $response['title'] = 'Unavailable to add product!';
-            $response['message'] = "Stock is insufficient for product: " . '<strong>' . $product_name . '</strong>. You may decrease your order.';
-        } else if (empty($product_name) || empty($enter_stock)) {
+            $response['title'] = 'Insufficient stock!';
+            $response['message'] = "Stock is insufficient for product: <strong>$product_name</strong>. You may decrease your order.";
+        } else if (empty($product_name) || empty($stock)) {
             $response['success'] = "400";
-            $response['title'] = 'Please try again!';
-            $response['message'] = "Fields are Required for #: " . '<strong>' . $product_names . '</strong>';
+            $response['title'] = 'Missing fields!';
+            $response['message'] = "Please fill in all the required fields.";
+        }  else if (empty($mytendered)) {
+            $response['success'] = "400";
+            $response['title'] = 'Missing field!';
+            $response['message'] = "Please fill in Tendered.";
+        } else if ($mytendered < $myoverall) {
+            $response['success'] = "400";
+            $response['title'] = 'Invalid Input!';
+            $response['message'] = "Invalid no of Tendered.";
         } else {
 
-            // Insert the record into the database
-            $query_update_sale = "INSERT INTO sale (sales_code, pr_id, sell_price, quantity, total,   date_created_at) 
- VALUES ('$combinedVariable', '" . $product['pr_id'] . "', '$selling_price', '$stock', '$total_amount', '$date_created_at')";
+             // Fetch menu and material data
+             $sql_menu = "SELECT * FROM menu WHERE pr_id = $pr_id";
+             $res_menu = mysqli_query($conn, $sql_menu);
+             if (mysqli_num_rows($res_menu) > 0) {
+                 while ($row = mysqli_fetch_array($res_menu)) {
+                     // Calculate new stock value
+                    //  $stock = $row['stock'] * $stock;
+             
+                     // Update stock in material table
+                     $query_update_material = "UPDATE `material` SET 
+                                               `stock` = `stock` - $stock,
+                                               `date_updated_at` = '$date_updated_at'
+                                               WHERE `ma_id` = " . $row['ma_id'];
+             
+                     // Execute the update query
+                     mysqli_query($conn, $query_update_material);
+                 }
+             }
+             
+            // Insert sale record into database
+            $query_update_sale = "INSERT INTO sale (sales_code, pr_id, sell_price, quantity, total, mytotal, mydiscount, mytendered, myoverall, date_created_at) 
+                                  VALUES ('$combinedVariable', '$pr_id', '$selling_price', '$stock', '$total_amount', '$mytotal', '$mydiscount', '$mytendered', '$myoverall', '$date_updated_at')";
 
-
+            // Execute queries
             $query_run_sale = mysqli_query($conn, $query_update_sale);
+            $query_run_material = mysqli_query($conn, $query_update_material);
 
-            if ($query_run_sale) {
+            if ($query_run_sale && $query_run_material) {
                 $response['success'] = "100";
                 $response['title'] = 'Product added successfully!';
                 $response['message'] = "You can now check the sale table.";
             } else {
                 $response['success'] = "500";
-                $response['title'] = 'SOMETHING WENT WRONG!';
+                $response['title'] = 'Something went wrong!';
                 $response['message'] = "Error inserting records.";
             }
         }
     }
+
     echo json_encode($response);
 }
-
 
 
 
@@ -1245,4 +1300,3 @@ if (isset($_POST['valid_enter_item'])) {
     }
     echo json_encode($response);
 }
-

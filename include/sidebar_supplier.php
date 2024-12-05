@@ -12,6 +12,13 @@
         </li>
 
         <li class="nav-item">
+            <a class="nav-link collapsed " href="../supplier/user_orders.php">
+                <i class="bi bi-bag"></i>
+                <span>Orders</span>
+            </a>
+        </li><!-- End Product Nav -->
+
+        <li class="nav-item">
             <a class="nav-link collapsed" href="product.html">
                 <i class="bi bi-truck"></i>
                 <span>logistics</span>

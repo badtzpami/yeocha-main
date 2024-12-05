@@ -14,7 +14,7 @@ $valid_user = "SELECT * FROM `users` WHERE `user_id` = '" . $sessionId . "' && `
 $check_user = mysqli_query($conn, $valid_user);
 
 if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
-    header("Location: ../user_signin/signin.php");
+    header("Location: ../index.php");
     session_destroy();
 } else
     $user = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM `users` WHERE `user_id` = $sessionId"));
@@ -804,7 +804,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                     if (res.success == 100) {
                         showMessageBox(res.title, res.message, 'success');
                         setTimeout(function() {
-                            location.href = '/yeocha_main/supplier/user_item.php';
+                            location.href = '/supplier/user_item.php';
                         }, 6000);
                     } else {
                         showMessageBox(res.title, res.message, 'warning');
@@ -836,7 +836,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                     if (res.success == 100) {
                         showMessageBox(res.title, res.message, 'success');
                         setTimeout(function() {
-                            location.href = '/yeocha_main/supplier/user_inventory.php';
+                            location.href = '/supplier/user_inventory.php';
                         }, 6000);
                     } else {
                         showMessageBox(res.title, res.message, 'warning');
@@ -868,7 +868,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                     if (res.success == 100) {
                         showMessageBox(res.title, res.message, 'success');
                         setTimeout(function() {
-                            location.href = '/yeocha_main/supplier/user_inventory.php';
+                            location.href = '/supplier/user_inventory.php';
                         }, 6000);
                     } else {
                         showMessageBox(res.title, res.message, 'warning');

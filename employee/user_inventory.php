@@ -14,7 +14,7 @@ $valid_user = "SELECT * FROM `users` WHERE `user_id` = '" . $sessionId . "' && `
 $check_user = mysqli_query($conn, $valid_user);
 
 if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
-    header("Location: ../user_signin/signin.php");
+    header("Location: ../index.php");
     session_destroy();
 } else
     $user = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM `users` WHERE `user_id` = $sessionId"));
@@ -634,7 +634,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 FROM 
     inventory inv 
 LEFT JOIN 
-    material mat ON inv.ma_id = mat.ma_id  AND  mat.type = 2  AND mat.unit = 3 
+    material mat ON inv.ma_id = mat.ma_id  AND  mat.type = 2  
 ORDER BY 
     mat.ma_id DESC LIMIT 1";
                                     $second_material_list_result = mysqli_query($conn, $second_material_list_query);
@@ -679,7 +679,7 @@ FROM
     inventory inv 
 LEFT JOIN 
     material mat ON inv.ma_id = mat.ma_id 
-WHERE  $condition mat.type = 2  AND mat.unit = 3 
+WHERE  $condition mat.type = 2  
 ORDER BY 
     mat.ma_id DESC";
                                     $material_list_result = mysqli_query($conn, $material_list_query);
@@ -908,8 +908,7 @@ ORDER BY
                         <input type="text" name="enter_stock[]" class="form-control enter_stock_inventory" value="${inventoryCount[inventoryName]}">
                         </h6>
                         </td>
-                        <td><button class="remove-btn-inventory">Remove</button></td>
-                    `;
+                        <td><button class="remove-btn-inventory">Remove</button></td>  `;
                 selectedInventory.appendChild(newRow);
 
                 const removeInventoryButton = newRow.querySelector('.remove-btn-inventory');
@@ -1053,7 +1052,7 @@ ORDER BY
                     if (res.success == 100) {
                         showMessageBox(res.title, res.message, 'success');
                         setTimeout(function() {
-                            location.href = '/yeocha_main/employee/user_inventory.php';
+                            location.href = '/employee/user_inventory.php';
                         }, 6000);
                     } else {
                         showMessageBox(res.title, res.message, 'warning');
@@ -1088,7 +1087,7 @@ ORDER BY
                     if (res.success == 100) {
                         showMessageBox(res.title, res.message, 'success');
                         setTimeout(function() {
-                            location.href = '/yeocha_main/employee/user_inventory.php';
+                            location.href = '/employee/user_inventory.php';
                         }, 6000);
                     } else {
                         showMessageBox(res.title, res.message, 'warning');
@@ -1120,7 +1119,7 @@ ORDER BY
                     if (res.success == 100) {
                         showMessageBox(res.title, res.message, 'success');
                         setTimeout(function() {
-                            location.href = '/yeocha_main/employee/user_inventory.php';
+                            location.href = '/employee/user_inventory.php';
                         }, 6000);
                     } else {
                         showMessageBox(res.title, res.message, 'warning');
@@ -1152,7 +1151,7 @@ ORDER BY
                     if (res.success == 100) {
                         showMessageBox(res.title, res.message, 'success');
                         setTimeout(function() {
-                            location.href = '/yeocha_main/employee/user_inventory.php';
+                            location.href = '/employee/user_inventory.php';
                         }, 6000);
                     } else {
                         showMessageBox(res.title, res.message, 'warning');

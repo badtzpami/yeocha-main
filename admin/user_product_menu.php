@@ -15,7 +15,7 @@ $valid_user = "SELECT * FROM `users` WHERE `user_id` = '" . $sessionId . "' && `
 $check_user = mysqli_query($conn, $valid_user);
 
 if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
-    header("Location: ../user_signin/signin.php");
+    header("Location: ../index.php");
     session_destroy();
 } else
     $user = mysqli_fetch_assoc(mysqli_query($conn, "SELECT * FROM `users` WHERE `user_id` = $sessionId"));
@@ -151,7 +151,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
             <div class="row">
                 <div class="col-9">
                     <div class="d-flex">
-                        <h4 class="page-title pl-0 h5 pl-sm-2 text-muted d-inline-block">Material Table</h4>
+                        <h4 class="page-title pl-0 h5 pl-sm-2 text-muted d-inline-block">Menu Table</h4>
                     </div>
                 </div>
                 <div class="col-3">
@@ -160,7 +160,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                         <nav>
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-                                <li class="breadcrumb-item">User Product Material</li>
+                                <li class="breadcrumb-item">User Product Menu</li>
                             </ol>
                         </nav>
                     </div>
@@ -177,7 +177,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
             <div class="d-flex">
 
-                <a href="../admin/user_product_menu.php">
+                <a href="../admin/user_product_material.php">
                     <button type="button" class="btn">
                         <i class="bi bi-refresh btn-icon-prepend"></i>Refresh
                     </button>
@@ -242,54 +242,20 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
                 <div class="card stretch-card" id="allMenuContent">
                     <div class="card-body">
-                        <h5 class="card-title">All Menu</h5>
+                        <h5 class="card-title">All Materials</h5>
                         <div class="table-responsive">
                             <form id="updateUserMenu" method="post">
 
                                 <?php include_once '../user_data/menu_data.php'; ?>
-
-                                <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
-                                    Submit
-                                </button>
+                                <div class="w-100 d-flex justify-content-end">
+                                    <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
+                                        Submit
+                                    </button>
+                                </div>
                             </form>
                         </div>
                     </div>
                 </div>
-
-
-<!-- 
-                <div class="card stretch-card" id="activeMaterialContent" style="display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">Active Materials</h5>
-                        <div class="table-responsive">
-                            <form id="updateUserActiveAccount" method="post">
-
-
-                                <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
-                                    Submit
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="card stretch-card" id="archiveMaterialContent" style="display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">Archive Materials</h5>
-                        <div class="table-responsive">
-                            <form id="updateUserMaterial" method="post">
-
-
-                                <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
-                                    Submit
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div> -->
-
-
 
 
 
@@ -310,6 +276,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                                             <th>#</th>
                                             <th>Product Name <span style="color:red">*</span></th>
                                             <th>Material Name <span style="color:red">*</span></th>
+                                            <th>Quantity<span style="color:red">*</span></th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -351,11 +318,11 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         const style = document.createElement('style');
         style.textContent = `
         .input-field {
-            width: 250px;
-            padding: 5px;
-            margin: 5px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+            width: 250px !important;
+            padding: 5px !important;
+            margin: 5px !important;
+            border: 1px solid #ccc !important;
+            border-radius: 4px !important;
         }
 
         .remove-btn {
@@ -436,11 +403,13 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
             const product_nameSelect = createProductSelect();
             const material_nameSelect = createMaterialSelect();
+            const stock = createInputField('stock[]', 'Stock');
 
             const removeBtn = createRemoveProductButton(row);
 
             row.appendChild(createTableCell(product_nameSelect));
             row.appendChild(createTableCell(material_nameSelect));
+            row.appendChild(createTableCell(stock));
 
             row.appendChild(createTableCell(removeBtn));
 
@@ -561,7 +530,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                         if (res.success == 100) {
                             showMessageBox(res.title, res.message, 'success');
                             setTimeout(function() {
-                                location.href = '/yeocha_main/admin/user_product_menu.php';
+                                location.href = '/admin/user_product_material.php';
                             }, 6000);
                         } else {
                             showMessageBox(res.title, res.message, 'warning');
@@ -598,7 +567,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                         if (res.success == 100) {
                             showMessageBox(res.title, res.message, 'success');
                             setTimeout(function() {
-                                location.href = '/yeocha_main/admin/user_product_menu.php';
+                                location.href = '/admin/user_product_material.php';
                             }, 6000);
                         } else {
                             showMessageBox(res.title, res.message, 'warning');
@@ -648,7 +617,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                                 if (res.success == 100) {
                                     showMessageBox(res.title, res.message, 'success');
                                     setTimeout(function() {
-                                        location.href = '/yeocha_main/admin/user_product_menu.php';
+                                        location.href = '/admin/user_product_material.php';
                                     }, 6000);
                                 } else {
                                     showMessageBox(res.title, res.message, 'warning');

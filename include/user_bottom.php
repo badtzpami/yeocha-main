@@ -44,44 +44,44 @@
         // }
       });
     }
-   // Function to remove the 'collapsed' class and save the state
-   function removeActive(event) {
-  event.preventDefault(); // Prevent the default action of the link
-  const sidebarLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+    // Function to remove the 'collapsed' class and save the state
+    function removeActive(event) {
+      event.preventDefault(); // Prevent the default action of the link
+      const sidebarLinks = document.querySelectorAll('.sidebar-nav .nav-link');
 
-  sidebarLinks.forEach(link => {
-    link.classList.add('collapsed'); // Add 'collapsed' class to all links
-  });
+      sidebarLinks.forEach(link => {
+        link.classList.add('collapsed'); // Add 'collapsed' class to all links
+      });
 
-  // Remove 'collapsed' class only from the clicked link
-  event.currentTarget.classList.remove('collapsed');
+      // Remove 'collapsed' class only from the clicked link
+      event.currentTarget.classList.remove('collapsed');
 
-  // Save the state in localStorage
-  localStorage.setItem('sidebarCollapsed', 'false');
+      // Save the state in localStorage
+      localStorage.setItem('sidebarCollapsed', 'false');
 
-  // Navigate to the new page after removing the class
-  const targetUrl = event.currentTarget.getAttribute('href');
-  window.location.href = targetUrl; // Redirect to the new page
-}
-
-// On page load, check localStorage for the sidebar state
-window.onload = function() {
-  const sidebarLinks = document.querySelectorAll('.sidebar-nav .nav-link');
-  const isCollapsed = localStorage.getItem('sidebarCollapsed');
-  const currentUrl = window.location.href;
-
-  // Remove collapsed class if the current URL matches a specific path
-  sidebarLinks.forEach(link => {
-    if (link.href === currentUrl) {
-      link.classList.remove('collapsed'); // Remove 'collapsed' from the active link
-    } else {
-      link.classList.add('collapsed'); // Add 'collapsed' to all other links
+      // Navigate to the new page after removing the class
+      const targetUrl = event.currentTarget.getAttribute('href');
+      window.location.href = targetUrl; // Redirect to the new page
     }
-  });
 
-  // Update localStorage based on the current URL
-  localStorage.setItem('sidebarCollapsed', currentUrl.includes('supplier/user_item.php') ? 'false' : 'true');
-};
+    // On page load, check localStorage for the sidebar state
+    window.onload = function() {
+      const sidebarLinks = document.querySelectorAll('.sidebar-nav .nav-link');
+      const isCollapsed = localStorage.getItem('sidebarCollapsed');
+      const currentUrl = window.location.href;
+
+      // Remove collapsed class if the current URL matches a specific path
+      sidebarLinks.forEach(link => {
+        if (link.href === currentUrl) {
+          link.classList.remove('collapsed'); // Remove 'collapsed' from the active link
+        } else {
+          link.classList.add('collapsed'); // Add 'collapsed' to all other links
+        }
+      });
+
+      // Update localStorage based on the current URL
+      localStorage.setItem('sidebarCollapsed', currentUrl.includes('supplier/user_item.php') ? 'false' : 'true');
+    };
 
 
     function printUserTable() {
@@ -312,7 +312,7 @@ window.onload = function() {
       });
 
 
-      $('#allMaterialContent .table-responsive #table_material_supplier').DataTable({
+      $('#allMaterialContent .table-responsive #table_category').DataTable({
         "ordering": false,
         retrieve: true,
         paging: true,
@@ -812,6 +812,142 @@ window.onload = function() {
 
 
 
+
+
+
+
+
+      ////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
+      $('#checkOutButton').click(function() {
+        $('#checkOutContent').show();
+        $('#toPackContent').hide();
+        $('#toShipContent').hide();
+        $('#toReceiveContent').hide();
+        $('#completedContent').hide();
+        $('#cancelledContent').hide();
+
+        $('#checkOutButton').addClass('active-button');
+        $('#toPackButton').removeClass('active-button');
+        $('#toShipButton').removeClass('active-button');
+        $('#toReceiveButton').removeClass('active-button');
+        $('#toCompletedButton').removeClass('active-button');
+        $('#toCancelledButton').removeClass('active-button');
+
+        if (!activeTableInitialized) {
+          initializeDataTable('#checkOutContent .table-responsive');
+          activeTableInitialized = true;
+        }
+      });
+
+      
+      $('#toPackButton').click(function() {
+        $('#checkOutContent').hide();
+        $('#toPackContent').show();
+        $('#toShipContent').hide();
+        $('#toReceiveContent').hide();
+        $('#completedContent').hide();
+        $('#cancelledContent').hide();
+
+        $('#checkOutButton').removeClass('active-button');
+        $('#toPackButton').addClass('active-button');
+        $('#toShipButton').removeClass('active-button');
+        $('#toReceiveButton').removeClass('active-button');
+        $('#toCompletedButton').removeClass('active-button');
+        $('#toCancelledButton').removeClass('active-button');
+
+        if (!activeTableInitialized) {
+          initializeDataTable('#toPackContent .table-responsive');
+          activeTableInitialized = true;
+        }
+      });
+
+      $('#toShipButton').click(function() {
+        $('#checkOutContent').hide();
+        $('#toPackContent').hide();
+        $('#toShipContent').show();
+        $('#toReceiveContent').hide();
+        $('#completedContent').hide();
+        $('#cancelledContent').hide();
+
+        $('#checkOutButton').removeClass('active-button');
+        $('#toPackButton').removeClass('active-button');
+        $('#toShipButton').addClass('active-button');
+        $('#toReceiveButton').removeClass('active-button');
+        $('#toCompletedButton').removeClass('active-button');
+        $('#toCancelledButton').removeClass('active-button');
+
+        if (!activeTableInitialized) {
+          initializeDataTable('#toShipContent .table-responsive');
+          activeTableInitialized = true;
+        }
+      });
+
+      $('#toReceiveButton').click(function() {
+        $('#checkOutContent').hide();
+        $('#toPackContent').hide();
+        $('#toShipContent').hide();
+        $('#toReceiveContent').show();
+        $('#completedContent').hide();
+        $('#cancelledContent').hide();
+
+        $('#checkOutButton').removeClass('active-button');
+        $('#toPackButton').removeClass('active-button');
+        $('#toShipButton').removeClass('active-button');
+        $('#toReceiveButton').addClass('active-button');
+        $('#toCompletedButton').removeClass('active-button');
+        $('#toCancelledButton').removeClass('active-button');
+
+        if (!activeTableInitialized) {
+          initializeDataTable('#toReceiveContent .table-responsive');
+          activeTableInitialized = true;
+        }
+      });
+
+      $('#toCompletedButton').click(function() {
+        $('#checkOutContent').hide();
+        $('#toPackContent').hide();
+        $('#toShipContent').hide();
+        $('#toReceiveContent').hide();
+        $('#completedContent').show();
+        $('#cancelledContent').hide();
+
+        $('#checkOutButton').removeClass('active-button');
+        $('#toPackButton').removeClass('active-button');
+        $('#toShipButton').removeClass('active-button');
+        $('#toReceiveButton').removeClass('active-button');
+        $('#toCompletedButton').addClass('active-button');
+        $('#toCancelledButton').removeClass('active-button');
+
+        if (!activeTableInitialized) {
+          initializeDataTable('#completedContent .table-responsive');
+          activeTableInitialized = true;
+        }
+      });
+
+
+      $('#toCancelledButton').click(function() {
+        $('#checkOutContent').hide();
+        $('#toPackContent').hide();
+        $('#toShipContent').hide();
+        $('#toReceiveContent').hide();
+        $('#completedContent').hide();
+        $('#cancelledContent').show();
+
+        $('#checkOutButton').removeClass('active-button');
+        $('#toPackButton').removeClass('active-button');
+        $('#toShipButton').removeClass('active-button');
+        $('#toReceiveButton').removeClass('active-button');
+        $('#toCompletedButton').removeClass('active-button');
+        $('#toCancelledButton').addClass('active-button');
+
+        if (!activeTableInitialized) {
+          initializeDataTable('#cancelledContent .table-responsive');
+          activeTableInitialized = true;
+        }
+      });
 
     });
 

@@ -28,6 +28,8 @@
 
 
                     <tr>
+                        <input type="hidden" name="pr_id[]" class="form-control" readonly value="<?php echo $product["pr_id"] ?>">
+
                         <td style="width: 200px;">
                             <h6 class="counter">
                                 <?php echo $counter++; ?>
@@ -106,25 +108,27 @@
                             </div>
                         </td>
 
-                        <input type="hidden" name="pr_id[]" class="form-control" readonly value="<?php echo $product["pr_id"] ?>">
 
                         <td style="width: 200px;"><input type="text" name="product_name[]" class="form-control" value="<?php echo $product["product_name"] ?>"></td>
                         <td>
-                            <select name="ca_id[]" id="ca_id">
-                                <option value="" disabled <?php echo empty($row["ca_id"]) ? 'selected' : ''; ?>>Choose Category</option>
+                            
 
+                            <select name="ca_id[]" id="ca_id">
+                                <option value="" disabled <?php echo empty($product["ca_id"]) ? 'selected' : ''; ?>>Choose Category</option>
                                 <?php
                                 $category_query = "SELECT * FROM `category` ORDER BY `ca_id` DESC";
                                 $category_result = mysqli_query($conn, $category_query);
-
-
                                 if (mysqli_num_rows($category_result) > 0) {
-                                    while ($cat = mysqli_fetch_array($category_result)) { ?>
-                                        <option value="<?php echo $cat["ca_id"]  ? $cat["ca_id"] : ''; ?>" <?php echo ($product["ca_id"] === $cat["ca_id"]) ? 'selected' : ''; ?>><?php echo $cat["category_name"]  ? $cat["category_name"] : ''; ?></option>
+                                    while ($cat = mysqli_fetch_array($category_result)) {
+                                        $category_name = $cat["category_name"]; 
+                                ?>
+                                        <option value="<?php echo $category_name; ?>" <?php echo ($cat["category_name"] === "$category_name" ) ? 'selected' : ''; ?>><?php echo $cat["category_name"]; ?></option>
                                 <?php
                                     }
-                                } ?>
+                                }
+                                ?>
                             </select>
+
                         </td>
 
                         <td style="width: 200px;"><input type="text" name="selling_price[]" class="form-control" value="<?php echo $product["selling_price"] ?>"></td>
@@ -201,8 +205,10 @@
     <!-- End Table with stripped rows -->
 
 
+    <div class="w-100 d-flex justify-content-end">
+        <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
+            Submit
+        </button>
+    </div>
 
-    <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
-        Submit
-    </button>
 </form>
