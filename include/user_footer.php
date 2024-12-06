@@ -1,6 +1,6 @@
 
   <!-- ======= Footer ======= -->
-  <footer id="footer" class="footer">
+  <footer id="footer" class="footer" style="margin:70px;">
     <div class="copyright">
       &copy; Copyright <strong><span>Yeocha Main</span></strong>. All Rights Reserved
     </div>

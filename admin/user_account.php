@@ -122,6 +122,26 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         right: 1px;
         margin: 10px;
     }
+
+    /* added by pawmi */
+ 
+ .add_users_button, .archive_data_button{
+    margin: 70px;
+    width: 200px;
+    height: 50px;
+    background-color: #f3d9b2;
+    border: 1px solid #f3d9b2;
+    border-radius: 35px;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s, color 0.3s;
+}
+
+ .add_users_button, .archive_data_button {
+    background-color: #f0f0f0; 
+    border: 1px solid #f3d9b2; 
+    color: #000000;
+}
 </style>
 <?php include "../include/user_top.php"; ?>
 
@@ -222,7 +242,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
                                 <?php include_once '../user_data/user_active_data.php'; ?>
                                 <div class="w-100 d-flex justify-content-end">
-                                    <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; right:0;">
+                                    <button type="submit" id="save-btn" class="active_data_button btn btn-sm btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; right:0;">
                                         Submit
                                     </button>
                                 </div>
@@ -239,7 +259,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
                                 <?php include_once '../user_data/user_archive_data.php'; ?>
 
-                                <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; right:0;">
+                                <button type="submit" id="save-btn" class="archive_data_button" style="margin: 50px; width: 200px; height: 50px; right:0;">
                                     Submit
                                 </button>
                             </form>
@@ -284,7 +304,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
                                 </table>
 
-                                <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
+                                <button type="submit" id="save-btn" class="add_users_button" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
                                     Submit
                                 </button>
                             </form>

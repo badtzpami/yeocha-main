@@ -122,6 +122,31 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         right: 1px;
         margin: 10px;
     }
+
+    /* added by pawmi */
+ 
+    #save-btn {
+    margin: 70px;
+    width: 200px;
+    height: 50px;
+    background-color: #f3d9b2;
+    border: 1px solid #f3d9b2;
+    border-radius: 35px;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s, color 0.3s;
+}
+
+#save-btn:hover {
+    background-color: #f0f0f0; 
+    border: 1px solid #f3d9b2; 
+    color: #000000;
+}
+
+
+
+
+
 </style>
 <?php include "../include/user_top.php"; ?>
 
@@ -233,7 +258,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
                                 <?php include_once '../user_data/supplier_material_data.php'; ?>
 
 
-                                <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
+                                <button type="submit" id="save-btn" class="btn btn-sm  btn-icon-text border main-btn">
                                     Submit
                                 </button>
                             </form>
@@ -308,7 +333,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
 
                                 </table>
 
-                                <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn" style="margin: 50px; width: 200px; height: 50px; align-item: right; right:0;">
+                                <button type="submit" id="save-btn" class="btn btn-sm bg-white btn-icon-text border main-btn">
                                     Submit
                                 </button>
                             </form>

@@ -1,7 +1,7 @@
 <?php
 
 //main connection file for both admin & front end
-$servername = "localhost:4306"; //server
+$servername = "localhost:3306"; //server
 $username = "root"; //username
 $password = ""; //password
 $dbname = "yeocha_main";  //database

@@ -1,12 +1,13 @@
 <style>
-    .bg-custom-secondary {
-        background-color: #535e70;
+    #sidebar {
+        background-color: #2C3E50 !important; /* Pink color with !important */
     }
 </style>
+
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
-    <ul class="sidebar-nav" id="sidebar-nav">
+    <ul class="sidebar-nav" id="sidebar-nav bg-custom-secondary">
 
         <li class="nav-item">
             <a class="nav-link  " href="../admin/dashboard.php">
@@ -73,7 +74,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed " href="../admin/user_logistic.php">
                 <i class="bi bi-truck"></i>
-                <span>logistics</span>
+                <span>Logistics</span>
             </a>
         </li><!-- End Product Nav -->
 

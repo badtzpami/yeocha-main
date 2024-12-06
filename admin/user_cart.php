@@ -728,13 +728,10 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
     <section class="section">
         <div class="row">
             <col-lg-12>
-
                 <div class="card stretch-card" id="addPhysicalInventoryContent" style="height:auto; display: none;">
                     <div class="card-body">
-
                         <div class="table-responsive">
                             <!-- add user -->
-
                             <h5 class="card-title">Add Material</h5>
                             <form id="addItemProduct" method="post">
 

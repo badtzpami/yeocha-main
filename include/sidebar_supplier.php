@@ -1,3 +1,8 @@
+<style>
+    #sidebar {
+        background-color: #2C3E50 !important; /* Pink color with !important */
+    }
+</style>
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
@@ -21,7 +26,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="product.html">
                 <i class="bi bi-truck"></i>
-                <span>logistics</span>
+                <span>Logistics</span>
             </a>
         </li><!-- End Product Nav -->
 

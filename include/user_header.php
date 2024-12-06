@@ -3,6 +3,8 @@
 
     <div class="d-flex align-items-center justify-content-between">
         <?php if (isset($_SESSION["user_id_admin"])) { ?>
+            <i class="bi bi-list toggle-sidebar-btn"></i>
+
             <a href="../admin/dashboard.php" class="logo d-flex align-items-center">
             <?php } else if (isset($_SESSION["user_id_employee"])) { ?>
                 <a href="../employee/user_inventory.php" class="logo d-flex align-items-center">
@@ -11,15 +13,13 @@
                     <?php } else { ?>
                         <a href="../supplier/user_item.php" class="logo d-flex align-items-center">
                         <?php } ?>
-
                         <?php if (isset($_SESSION["user_id_cashier"])) { ?>
-                            <img src="../assets/images/default_images/cashier_pos.jpg" class="object-fit-fill" alt="" width="108" height="160" style="margin-right: 0;">
+                            <img src="../assets/images/default_images/cashier_pos.jpg" class="object-fit-fill" alt="" width="108" height="160">
                         <?php } else { ?>
-                            <img src="../assets/images/default_images/yeotrack_logo.png" class="object-fit-fill" alt="" width="88" height="150" style="margin-right: 0;">
-                        <?php }  ?>
-
+                            <img src="../assets/images/default_images/yeotrack_logo.png" class="object-fit-fill" alt="" width="88" height="150">
+                        <?php }?>
                         </a>
-                        <i class="bi bi-list toggle-sidebar-btn"></i>
+                   
     </div>
 
 

@@ -330,34 +330,12 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         /* Aligns buttons to the right */
     }
 
-    .reset-button {
-        display: flex;
-        justify-content: flex-end;
-        /* Aligns items to the right */
-        /* margin-bottom: 10px; */
-        /* Optional spacing between buttons */
-    }
 
     .physical_inventory_button {
         margin-left: 10px;
         /* Optional spacing between the two buttons */
     }
 
-    .physical_inventory_button,
-    .reset-button button {
-        width: 200px;
-        /* Set width for buttons */
-        height: 50px;
-        /* Set height for buttons */
-        background-color: #fff;
-        /* Button background color */
-        border: 1px solid #ccc;
-        /* Button border */
-        cursor: pointer;
-        /* Pointer cursor on hover */
-        transition: background-color 0.3s;
-        /* Smooth background color change */
-    }
 
     /* .reset-button {
         position: absolute;
@@ -366,12 +344,7 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         top: 0;
     } */
 
-    .physical_inventory_button:hover,
-    .reset-button button:hover {
-        background-color: #f0f0f0;
-        /* Change background on hover */
-    }
-
+  
 
     /* ///////////// */
 
@@ -432,6 +405,26 @@ if (!isset($sessionId) || mysqli_num_rows($check_user) < 0) {
         border: 2px solid #007bff;
         box-shadow: 0 4px 20px rgba(0, 123, 255, 0.5);
     }
+
+/* added by pawmi */
+.physical_inventory_button, .reset-button button {
+    margin: 70px;
+    width: 200px;
+    height: 50px;
+    background-color: #f3d9b2;
+    border: 1px solid #f3d9b2;
+    border-radius: 35px;
+    color: #000000;
+    cursor: pointer;
+    transition: background-color 0.3s, border 0.3s, color 0.3s;
+}
+
+.physical_inventory_button:hover, .reset-button:hover button{
+    background-color: #f0f0f0; 
+    border: 1px solid #f3d9b2; 
+    color: #000000;
+}
+
 </style>
 <?php include "../include/user_top.php"; ?>
 

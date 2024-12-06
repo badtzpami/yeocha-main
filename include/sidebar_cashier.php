@@ -1,3 +1,8 @@
+<style>
+    #sidebar {
+        background-color: #2C3E50 !important; /* Pink color with !important */
+    }
+</style>
 <!-- ======= Sidebar ======= -->
 <aside id="sidebar" class="sidebar">
 
